@@ -1,6 +1,7 @@
 from pandas import *
 from ggplot import *
 
+
 def plot_weather_data(turnstile_weather):
     '''
     You are passed in a dataframe called turnstile_weather. 
@@ -19,13 +20,13 @@ def plot_weather_data(turnstile_weather):
     If you'd like to learn more about ggplot and its capabilities, take
     a look at the documentation at:
     https://pypi.python.org/pypi/ggplot/
-     
+
     You can check out:
     https://www.dropbox.com/s/meyki2wl9xfa7yk/turnstile_data_master_with_weather.csv
-     
+
     To see all the columns and data points included in the turnstile_weather 
     dataframe. 
-     
+
     However, due to the limitation of our Amazon EC2 server, we are giving you a random
     subset, about 1/3 of the actual data in the turnstile_weather dataframe.
     '''
@@ -37,17 +38,16 @@ def plot_weather_data(turnstile_weather):
     entriesByDayOfMonth = df[['DATEn', 'ENTRIESn_hourly']] \
         .groupby('DATEn', as_index=False).sum()
 
-    entriesByDayOfMonth['Day'] = [datetime.strptime(x, '%Y-%m-%d') \
-                                      .strftime('%w %A') \
+    entriesByDayOfMonth['Day'] = [datetime.strptime(x, '%Y-%m-%d')
+                                  .strftime('%w %A')
                                   for x in entriesByDayOfMonth['DATEn']]
 
     entriesByDay = entriesByDayOfMonth[['Day', 'ENTRIESn_hourly']]\
         .groupby('Day', as_index=False).sum()
 
     plot = ggplot(entriesByDay, aes(x='Day', y='ENTRIESn_hourly')) \
-           + geom_bar(aes(weight='ENTRIESn_hourly'), fill='blue', stat="bar") \
-           + ggtitle('NYC Subway ridership by day of week') + xlab('Day') + ylab('Entries')
-
-    
+        + geom_bar(aes(weight='ENTRIESn_hourly'), fill='blue', stat="bar") \
+        + ggtitle('NYC Subway ridership by day of week') + \
+        xlab('Day') + ylab('Entries')
 
     return plot

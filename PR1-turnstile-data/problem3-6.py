@@ -4,7 +4,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import csv
 
-filename="turnstile_data_master_with_weather.csv"
+filename = "turnstile_data_master_with_weather.csv"
 weather_data = pd.read_csv(filename)
 
 
